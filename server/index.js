@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const cors = require("cors");
 // const contactRoute = require("./Router/user-router");
 const signupModal = require("./models/signup-model");
+const weatherRoute = require("./weather");
 
 //server listen
 const PORT = process.env.PORT || 3032;
@@ -33,6 +34,10 @@ mongoose.connect("mongodb://0.0.0.0:27017/weather", (err) => {
   } else {
     console.log(err);
   }
+});
+//test route
+server.post("/", (req, res) => {
+  res.send("hello world");
 });
 
 //get route
@@ -90,3 +95,4 @@ server.post("/login", (req, res) => {
 });
 
 // server.use("/user", contactRoute);
+server.use("/", weatherRoute);
