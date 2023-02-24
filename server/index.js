@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
-const contactRoute = require("./Router/user-router");
-const signupModal = require("./modals/signup-model");
+// const contactRoute = require("./Router/user-router");
+const signupModal = require("./models/signup-model");
 
 //server listen
 const PORT = process.env.PORT || 3032;
@@ -26,7 +26,8 @@ server.use(express.urlencoded({ extended: false }));
 server.use(cors());
 //database connection
 
-mongoose.connect("mongodb://0.0.0.0:27017/", (err) => {
+mongoose.set("strictQuery", false);
+mongoose.connect("mongodb://0.0.0.0:27017/weather", (err) => {
   if (!err) {
     console.log(`server connected at db`);
   } else {
@@ -88,4 +89,4 @@ server.post("/login", (req, res) => {
   });
 });
 
-server.use("/user", contactRoute);
+// server.use("/user", contactRoute);
