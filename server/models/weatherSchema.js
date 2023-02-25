@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const searchSchema = new mongoose.Schema({
-  city: String,
+  weather: [{}],
   timestamp: { type: Date, default: Date.now },
   userId: String,
 });

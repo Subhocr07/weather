@@ -84,6 +84,7 @@ server.post("/login", (req, res) => {
         if (check) {
           const token = jwt.sign(exist.email, process.env.SECRET_KEY);
           res.status(200).send(token);
+          console.log("sign token", token);
         } else {
           return res.status(400).send("Invalid User Credentials");
         }

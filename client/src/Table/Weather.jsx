@@ -2,14 +2,22 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const Weather = () => {
-  const [city, setCity] = useState('');
+  const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
 
   const getWeatherData = async () => {
     console.log(city)
     const authToken = localStorage.getItem('user')
+    const formData = {
+      city: city,
+    }
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': authToken
+    }
+
     try {
-      const response = await axios.post('http://localhost:3032/weather', { city });
+      const response = await axios.post('http://localhost:3032/weather', formData, { headers });
       console.log(response.data)
       setWeather(response.data);
     } catch (error) {
