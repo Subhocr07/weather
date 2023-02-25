@@ -4,6 +4,7 @@ const router = require("express").Router();
 const Search = require("./models/weatherSchema.js");
 const jwt = require("jsonwebtoken");
 
+//save weather and get live report
 router.post("/weather", async (req, res) => {
   console.log(req.body.city);
   console.log(req.headers.authorization);
@@ -50,6 +51,29 @@ router.post("/weather", async (req, res) => {
     // search.save();
   } catch (error) {
     res.send(error);
+  }
+});
+
+//fetch from database
+router.get("/saved", async (req, res) => {
+  try {
+    const auth_id = jwt.verify(
+      req.headers.authorization,
+      process.env.SECRET_KEY
+    );
+
+    const data = await Search.findOne({ userId: auth_id })
+      .select({
+        _id: 0,
+        weather: { $slice: -5 }, // retrieve last 5 items from the 'weather' array
+      })
+      .lean()
+      .sort({ "weather.createdAt": -1 });
+
+    res.status(200).send(data.weather);
+  } catch (err) {
+    console.log("Get err");
+    res.status(500).send(err.message);
   }
 });
 module.exports = router;
